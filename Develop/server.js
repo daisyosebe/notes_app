@@ -1,44 +1,63 @@
 const express = require('express');
+const fs = require('fs');
 const path = require('path');
-const noteData = require('./db/db.json');
-const PORT = 3001;
+const { v4: uuidv4 } = require('uuid');
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
+// Middleware to parse JSON and urlencoded form data
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+// Path to the db.json file
+const dbPath = path.join(__dirname, 'db', 'db.json');
+
+// HTML Routes
+app.get('/notes', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'notes.html'));
 });
 
-app.get('/notes', (req, res) => {
-    res.sendFile(path.join(__dirname, 'notes.html'));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// API Routes
+app.get('/api/notes', (req, res) => {
+  fs.readFile(dbPath, 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Failed to read notes' });
+    } else {
+      res.json(JSON.parse(data));
+    }
   });
+});
 
+app.post('/api/notes', (req, res) => {
+  const newNote = { id: uuidv4(), ...req.body };
 
-app.get('/notes', (req, res) => res.json(noteData));
+  fs.readFile(dbPath, 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Failed to read notes' });
+    } else {
+      const notes = JSON.parse(data);
+      notes.push(newNote);
+
+      fs.writeFile(dbPath, JSON.stringify(notes, null, 2), (err) => {
+        if (err) {
+          console.error(err);
+          res.status(500).json({ error: 'Failed to save note' });
+        } else {
+          res.json(newNote);
+        }
+      });
+    }
+  });
+});
 
 app.listen(PORT, () => {
-  console.log(`Example app listening at http://localhost:${PORT}`);
-})
-
-app.get('/routes', (req, res) =>
-  res.sendFile(path.join(__dirname, 'public/notes.html'))
-);
-
-app.get('/dizzy', (req, res) =>{
-  console.log("woof woof")
-})
-
-// app.get("*", (req, res) => res.send("no page found."))
-
-
-// listen() method is responsible for listening for incoming connections on the specified port 
-// telling express start listening on "port 3001" 
-// Xpress will not listen to anything unless you tell it to. 
-app.listen(PORT, () =>
-  console.log(`Example app listening at http://localhost:${PORT}`)
-);
-
-
-
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
