@@ -40,3 +40,20 @@ app.get('/api/notes', (req, res) => {
       });
     });
   });
+
+  app.delete('/api/notes/:id', (req, res) => {
+    const { id } = req.params;
+    fs.readFile(path.join(__dirname, 'db/db.json'), 'utf8', (err, data) => {
+      if (err) throw err;
+      const notes = JSON.parse(data);
+      const updatedNotes = notes.filter(note => note.id !== id);
+      fs.writeFile(path.join(__dirname, 'db/db.json'), JSON.stringify(updatedNotes, null, 2), (err) => {
+        if (err) throw err;
+        res.json({ id });
+      });
+    });
+  });
+  
+  app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+  });
