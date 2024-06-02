@@ -20,9 +20,23 @@ app.get('/notes', (req, res) => {
   });
   
 // API Routes
+// Get
 app.get('/api/notes', (req, res) => {
     fs.readFile(path.join(__dirname, 'db/db.json'), 'utf8', (err, data) => {
       if (err) throw err;
       res.json(JSON.parse(data));
+    });
+  });
+// Post
+  app.post('/api/notes', (req, res) => {
+    const newNote = { id: uuidv4(), ...req.body };
+    fs.readFile(path.join(__dirname, 'db/db.json'), 'utf8', (err, data) => {
+      if (err) throw err;
+      const notes = JSON.parse(data);
+      notes.push(newNote);
+      fs.writeFile(path.join(__dirname, 'db/db.json'), JSON.stringify(notes, null, 2), (err) => {
+        if (err) throw err;
+        res.json(newNote);
+      });
     });
   });
