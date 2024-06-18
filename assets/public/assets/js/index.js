@@ -132,7 +132,7 @@ const handleRenderBtns = () => {
 const renderNoteList = async (notes) => {
   let jsonNotes = await notes.json();
   if (window.location.pathname === '/notes') {
-    noteList.innerHTML = '';
+    noteList.forEach((el) => (el.innerHTML = ''));
   }
 
   let noteListItems = [];
@@ -178,7 +178,7 @@ const renderNoteList = async (notes) => {
   });
 
   if (window.location.pathname === '/notes') {
-    noteListItems.forEach((note) => noteList.append(note));
+    noteListItems.forEach((note) => noteList[0].append(note));
   }
 };
 
