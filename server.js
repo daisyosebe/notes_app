@@ -22,11 +22,11 @@ app.get('/api/notes', (req, res) => {
 // Post
 app.post('/api/notes', (req, res) => {
   const newNote = { id: uuidv4(), ...req.body };
-  fs.readFile(path.join(__dirname, 'db/db.json'), 'utf8', (err, data) => {
+  fs.readFile(path.join(__dirname, './assets/db/db.json'), 'utf8', (err, data) => {
     if (err) throw err;
     const notes = JSON.parse(data);
     notes.push(newNote);
-    fs.writeFile(path.join(__dirname, 'db/db.json'), JSON.stringify(notes, null, 2), (err) => {
+    fs.writeFile(path.join(__dirname, './assets/db/db.json'), JSON.stringify(notes, null, 2), (err) => {
       if (err) throw err;
       res.json(newNote);
     });
@@ -41,7 +41,7 @@ app.get('/notes', (req, res) => {
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'assets/public/index.html'));
   });
-  
+
 // app.delete('/api/notes/:id', (req, res) => {
   //   const { id } = req.params;
   //   fs.readFile(path.join(__dirname, 'db/db.json'), 'utf8', (err, data) => {
