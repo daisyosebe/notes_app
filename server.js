@@ -39,7 +39,7 @@ app.post('/api/notes', (req, res) => {
 // deletes note 
 app.delete('/api/notes/:id', (req, res) => {
   db = db.filter(({id}) => id !== req.params.id);
-  writeFile('db/db.json', JSON.stringify(db), (err) => {
+  writeFile('./db/db.json', JSON.stringify(db), (err) => {
     err ? console.log(err) : console.log('Note deleted.')
   })
   res.json(db)
