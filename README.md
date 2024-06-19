@@ -1,14 +1,50 @@
-# notes_app
-On the back end, the application should include a `db.json` file that will be used to store and retrieve notes using the `fs` module.
+# 11 Express.js: Note Taker
 
-The following HTML routes should be created:
+# Take Notes
+## Description
 
-* `GET /notes` should return the `notes.html` file.
+```
 
-* `GET *` should return the `index.html` file.
+This is a note-taking application
+When the Note Taker is Opened
+User is presented with a landing page with a link to a notes page
+When the link is clicked, 
+User is presented with a page with existing notes listed in the left-hand column, plus empty fields to enter a new note title and the note’s text in the right-hand column
+When a new note title and the note’s text is entered,
+A "Save Note" button and a "Clear Form" button appear in the navigation at the top of the page
+When user clicks the Save button,
+The new note entered is saved and appears in the left-hand column with the other existing notes and the buttons in the navigation disappear
+The user is able to click on the list in the left-hand column, 
+Which causes the note to appear in the right-hand column and a "New Note" button appears in the navigation
+When user clicks on the "New Note" button in the navigation at the top of the page,
+They are presented with empty fields to enter a new note title and the note’s text in the right-hand column and the button disappears
+        
+```
 
-The following API routes should be created:
+## GitHub Repo/Rendered application/Video/Screenshots
 
-* `GET /api/notes` should read the `db.json` file and return all saved notes as JSON.
+Repo Link: (https://github.com/daisyosebe/notes_app.git)
+Rendered Link: ()
 
-* `POST /api/notes` should receive a new note to save on the request body, add it to the `db.json` file, and then return the new note to the client. You'll need to find a way to give each note a unique id when it's saved (look into npm packages that could do this for you).
+Screenshots:
+
+
+VIDEO:
+
+
+
+## Resources
+
+> **Note**: I received help/assistance from the following: 
+> 
+> * Xpert Learning Assistant 
+>
+> * W3schools.com
+>
+> * stackOverflow  
+>
+> * Cohort Instructor - sample code from class work
+>
+> * Cohort classmates 
+
+
