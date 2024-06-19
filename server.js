@@ -1,60 +1,55 @@
 const express = require('express');
-const fs = require('fs');
 const path = require('path');
-const { v4: uuidv4 } = require('uuid');
+const {writeFile} = require('fs');
+let db = require("./db/db.json");
+const uniqid = require('uniqid');
 
+const PORT = process.env.PORT || 3001;
 const app = express();
-const PORT = process.env.PORT || 3000;
 
+// middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}));
 app.use(express.static('public'));
 
+// page routes
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/index.html'));
+})
 
-// API Routes
-// Get
-app.get('/api/notes', (req, res) => {
-  fs.readFile(path.join(__dirname, './assets/db/db.json'), 'utf8', (err, data) => {
-    if (err) throw err;
-    res.json(JSON.parse(data));
-  });
-});
-// Post
-app.post('/api/notes', (req, res) => {
-  const newNote = { id: uuidv4(), ...req.body };
-  fs.readFile(path.join(__dirname, './assets/db/db.json'), 'utf8', (err, data) => {
-    if (err) throw err;
-    const notes = JSON.parse(data);
-    notes.push(newNote);
-    fs.writeFile(path.join(__dirname, './assets/db/db.json'), JSON.stringify(notes, null, 2), (err) => {
-      if (err) throw err;
-      res.json(newNote);
-    });
-  });
-});
-
-// HTML Routes
 app.get('/notes', (req, res) => {
-    res.sendFile(path.join(__dirname, 'assets/public/notes.html'));
-  });
-  
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'assets/public/index.html'));
-  });
+  res.sendFile(path.join(__dirname, 'public/notes.html'));
+})
 
-// app.delete('/api/notes/:id', (req, res) => {
-  //   const { id } = req.params;
-  //   fs.readFile(path.join(__dirname, 'db/db.json'), 'utf8', (err, data) => {
-    //     if (err) throw err;
-    //     const notes = JSON.parse(data);
-    //     const updatedNotes = notes.filter(note => note.id !== id);
-    //     fs.writeFile(path.join(__dirname, 'db/db.json'), JSON.stringify(updatedNotes, null, 2), (err) => {
-      //       if (err) throw err;
-      //       res.json({ id });
-  //     });
-  //   });
-  // });
-  
-  app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-  });
+// api routes
+app.get('/api/notes', (req, res) => {
+  res.json(db);
+})
+
+// uniqid adds unique id to each note submitted
+app.post('/api/notes', (req, res) => {
+  req.body.id = uniqid();
+  db.push(req.body);
+  writeFile('db/db.json', JSON.stringify(db), (err) => {
+    err ? console.log(err) : console.log('Note added.')
+  })
+  res.json(db)
+})
+
+// deletes note 
+app.delete('/api/notes/:id', (req, res) => {
+  db = db.filter(({id}) => id !== req.params.id);
+  writeFile('db/db.json', JSON.stringify(db), (err) => {
+    err ? console.log(err) : console.log('Note deleted.')
+  })
+  res.json(db)
+})
+
+// catch's all path 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/index.html'));
+})
+
+app.listen(PORT, () => {
+  console.log(`Express listening at http://localhost:${PORT}`);
+})
