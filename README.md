@@ -33,12 +33,13 @@ They are presented with empty fields to enter a new note title and the note’s 
         
 ```
 
-## GitHub Repo/Rendered application/Video/Screenshots
+## GitHub Repo/Rendered application/Screenshots/Video
 
 Repo Link: (https://github.com/daisyosebe/notes_app.git)
+
 Rendered Link: ()
 
-Screenshots:
+SCREENSHOTS:
 
 - Get Started button links to the notes pages
 ![Screenshot 2024-06-19 132859](https://github.com/daisyosebe/notes_app/assets/145105156/3b3acf5c-ae72-4721-8e0f-6a9b386bb147)
@@ -46,8 +47,8 @@ Screenshots:
 - After typing in the title section the clear button appears, and the save notes button only appears after the 'Note title' and 'Note text' sections are filled in.  
 ![Screenshot 2024-06-19 140133](https://github.com/daisyosebe/notes_app/assets/145105156/9ec86d83-9cd0-4177-ace2-dfc8c0963b2e)
 
-- After clicking on 'Save note', it appears in the left column and you can click on the note to review it. 
-![Screenshot 2024-06-19 132914](https://github.com/daisyosebe/notes_app/assets/145105156/29e98404-483c-4e9a-99d3-be7c486bb09d)
+- After clicking on 'Save note', it appears in the left column and you can click on the note to review it. While reviewing the note, a 'New Note' button appears in the navigation. 
+![Screenshot 2024-06-19 143355](https://github.com/daisyosebe/notes_app/assets/145105156/afbc38fb-1394-4e06-b23b-a372a1670ee7)
 
 VIDEO:
 [Untitled_ Jun 19, 2024 2_13 PM.webm](https://github.com/daisyosebe/notes_app/assets/145105156/0fd8081a-045c-4f04-a3f2-36d6bba90ff1)
